@@ -1,7 +1,5 @@
-
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import { Dashboard } from './src/screens/Dashboard';
 import { ThemeProvider } from 'styled-components';
 
 import { 
@@ -10,6 +8,8 @@ import {
   Poppins_500Medium,
   Poppins_700Bold
 } from '@expo-google-fonts/poppins';
+
+import { Dashboard } from './src/screens/Dashboard';
 
 import theme from './src/global/styles/theme';
 
@@ -32,4 +32,3 @@ export default function App() {
     </ThemeProvider>
   ) 
 }
-
