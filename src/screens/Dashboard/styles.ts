@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
+
 import { Feather } from '@expo/vector-icons';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
@@ -14,7 +16,7 @@ export const Header = styled.View`
   background-color: ${({theme}) => theme.colors.primary};
 
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row;
 `;
 
@@ -23,6 +25,8 @@ export const UserWrapper = styled.View`
 
   //cima-baixo - direita-esquerda;
   padding: 0 24px;
+  margin-top: ${getStatusBarHeight() + RFValue(28)}px;
+
   flex-direction: row;
   justify-content: space-between; //fica lolado nas bordas, respeitando o espaçamento interno do padding;
   align-items: center;// fica verticalmente alinhado;
@@ -62,4 +66,29 @@ export const UserName = styled.Text`
 export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};
   font-size: ${RFValue(24)}px;
+`;
+
+export const HighligthCards = styled.ScrollView.attrs({ //acessa as propriedades da ScrollView pelo styled componet
+  horizontal: true, //deixa os cards na horizontal
+  showsHorizontalScrollIndicator: false, //remove a barra do scrol view
+  contentContainerStyle: { paddingHorizontal: 24 }, //acrecenta stilização dentro da listagem
+})`
+  width: 100%;
+
+  position: absolute;
+  margin-top: ${RFPercentage(20)}px;
+`;
+
+export const Transactions = styled.View`
+  flex: 1;
+  padding: 0 24px;
+
+  margin-top: ${RFPercentage(12)}px;
+`;
+
+export const Title = styled.Text`
+  font-size: ${RFValue(18)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+
+  margin-bottom: 16px;
 `;
