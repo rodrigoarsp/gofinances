@@ -1,7 +1,6 @@
 import React from 'react';
-import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { HighligthCard } from '../../components/HighlightCard';
-import { TransactionCard } from '../../components/TransactionCard';
+import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard';
 
 import { 
     Container,
@@ -19,9 +18,14 @@ import {
     TransactionList,
 } from './styles';
 
+export interface DataListProps extends TransactionCardProps{
+    id: string;
+}
+
 export function Dashboard(){
-    const data =[
+    const data: DataListProps[] =[
     {
+        id: '1',
         type: 'positive',
         title: "Desenvolvimento de site",
         amount: "R$ 12.000,00",
@@ -32,22 +36,24 @@ export function Dashboard(){
         date: "13/04/2020",
     },
     {
+        id: '2',
         type: 'negative',
         title: "Hamburgueria Pizzy",
-        amount: "R$ 12.000,00",
+        amount: "R$ 12,00",
         category: {
             name: 'Alimentação',
-            icon: 'dollar-sign',
+            icon: 'coffee',
         },
         date: "10/04/2020",
     },
     {
+        id: '3',
         type: 'negative',
         title: "Aluguel do apartamento",
         amount: "R$ 1.200,00",
         category: {
             name: 'Casa',
-            icon: 'dollar-sign',
+            icon: 'shopping-bag',
         },
         date: "10/04/2020",
     },
@@ -94,16 +100,9 @@ export function Dashboard(){
 
                 <TransactionList 
                     data={data}
-                    renderItem={({ item }) => <TransactionCard data={item}/>}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{
-                        paddingBottom: getBottomSpace()
-                    }}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => <TransactionCard data={item}/>}     
                 />
-
-                
-
-                
             </Transactions>
             
         </Container>
