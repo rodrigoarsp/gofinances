@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-native';
+import { useForm } from 'react-hook-form';
 
 import { Input } from '../../components/Form/Input';
+import { InputForm } from '../../components/Form/InputForm';
 import { Button } from '../../components/Form/Button';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
@@ -15,7 +17,12 @@ import {
   Form,
   Fields,
   TransactionType,
-} from './styled'
+} from './styled';
+
+interface FormData {
+  name: string;
+  amount: string;
+}
 
 export function Register(){
   const [transactionType, setTransactionType] = useState('');
@@ -25,6 +32,11 @@ export function Register(){
     key: 'category',
     name: 'categoria',
   });
+
+  const {
+    control,
+    handleSubmit
+  } = useForm();
 
   function handleTransactionTypeSelect(type: 'up' | 'down'){
     setTransactionType(type);
@@ -38,6 +50,16 @@ export function Register(){
     setCategoryModalOpen(false);
   }
 
+  function handleRegister(form: FormData){
+    const data = {
+      name: form.name,
+      amount: form.amount,
+      transactionType,
+      category: category.key
+    }
+    console.log(data);
+  }
+
 
   return(
     <Container>
@@ -46,10 +68,14 @@ export function Register(){
       </Header>
       <Form>
         <Fields>
-          <Input
+          <InputForm
+            name="name"
+            control={control}
             placeholder="Nome"
           />
-          <Input
+          <InputForm
+            name="amount"
+            control={control}
             placeholder="Preço"
           />
           <TransactionType>
@@ -73,7 +99,10 @@ export function Register(){
           />
 
         </Fields>
-        <Button title="Enviar"/>
+        <Button 
+          title="Enviar"
+          onPress={handleSubmit(handleRegister)}
+        />
       </Form>
 
       <Modal visible={categoryModalOpen}>
