@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Modal,
   TouchableWithoutFeedback, 
@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import * as Yup from 'yup'; // importando tudo do yup
 import { yupResolver } from '@hookform/resolvers/yup';
+import  AsyncStorage  from '@react-native-async-storage/async-storage';
 
 import { useForm } from 'react-hook-form';
 
@@ -45,6 +46,8 @@ export function Register(){
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
+  const dataKey = '@gofinances:transactions';
+
   const [category, setCategory] = useState({
     key: 'category',
     name: 'categoria',
@@ -70,7 +73,7 @@ export function Register(){
     setCategoryModalOpen(false);
   }
 
-  function handleRegister(form: FormData){
+  async function handleRegister(form: FormData){ //ela é async para usar await (para esperar na gravação de dados)
     if(!transactionType)
       return Alert.alert('Selecione o tipo da transação');
 
@@ -83,7 +86,24 @@ export function Register(){
       transactionType,
       category: category.key
     }
-    console.log(data);
+    
+    try {
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(data)); //setItem recebe dois parameros a chave e o objeto a salvar(em string)
+
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possível salvar");
+    }
+
+    useEffect(() => {
+      async function loadData(){
+        const data = await AsyncStorage.getItem(dataKey);
+        console.log(JSON.parse(data!)); //O uso de ! é do typescript que é forçando sempre vai ter alguma coisa
+      }
+
+      loadData();  
+    },[])
   }
 
 
@@ -141,7 +161,7 @@ export function Register(){
           </Fields>
           <Button 
             title="Enviar"
-            onPress={handleSubmit(handleRegister)}
+            onPress={handleSubmit(handleRegister)} //Tem que fazer a tipagem do onPress = () => void -> pois é uma exigência do RectButton
           />
         </Form>
 

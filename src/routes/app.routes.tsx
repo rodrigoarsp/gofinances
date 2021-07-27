@@ -20,7 +20,7 @@ export function AppRoutes(){
         labelPosition: 'beside-icon',
         style:{
           paddingVertical: Platform.OS === 'ios' ? 20 : 0,
-          height: 88,
+          height: 72,
         }
 
       }}
@@ -42,7 +42,7 @@ export function AppRoutes(){
         name="Cadastrar"
         component={Register}
         options={{
-          tabBarIcon: (({ size, color}) => (
+          tabBarIcon: (({ size , color}) => (
             <MaterialIcons
               name="attach-money"
               size={size}
